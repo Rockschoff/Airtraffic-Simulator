@@ -1,0 +1,126 @@
+#:kivy 2.0.0
+
+# MainMenu.kv
+# Description:
+#   Definition of the GUI for the main menu
+
+<MainMenuWindow>:
+    name: "MainMenu"
+    padding: 20, 20, 20, 20
+    spacing: 10
+    canvas.before:
+        Color:
+            rgba: 0.3922, 0.4314, 0.4078, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        rows: 2
+
+        GridLayout:
+            canvas:
+                Color:
+                    rgba: .95686, .95294, .93333, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            size_hint: 1, .08
+            cols: 1
+            padding: dp(8)
+
+            # Title
+            AnchorLayout:
+                size_hint: .5, 1
+                anchor_x: 'left'
+                anchor_y: 'center'
+
+                Label:
+                    text: "Main Menu"
+                    color: 0, 0, 0, 1
+                    bold: True
+                    font_size: dp(35)
+                    max_lines: 1
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.size
+                    size_hint: 1, 1
+                    anchor_x: 'left'
+
+        GridLayout:
+
+            cols: 3
+            rows: 3
+            padding: dp(150)
+            spacing: dp(20)
+
+            Button:
+                text: "Schedule"
+                font_size: dp(35)
+
+                on_release:
+                    app.root.current = "Schedule"
+                    root.manager.transition.direction = "left"
+
+            Button:
+                text: "Plane Info"
+                font_size: dp(35)
+
+                on_release:
+                    app.root.current = "PlaneInfo"
+                    root.manager.transition.direction = "left"
+
+            Button:
+                text: "Radar"
+                font_size: dp(35)
+
+                on_release: root.changeToRadar()
+                    #app.root.current = "RadarScreen"
+                    #root.manager.transition.direction = "left"
+
+            #Button:
+            #    text: "Terminal Simulation"
+            #    on_release:
+            #        app.root.current = "TerminalSimulation"
+            #        root.manager.transition.direction = "left"
+
+            Button:
+                text: "Master Log"
+                font_size: dp(35)
+
+                on_release:
+                    app.root.current = "MasterLog"
+                    root.manager.transition.direction = "left"
+
+            Button:
+                text: "Incident Log"
+                font_size: dp(35)
+
+                on_release:
+                    app.root.current = "IncidentLog"
+                    root.manager.transition.direction = "left"
+
+            Button:
+                text: "Ground Crew Sim"
+                font_size: dp(35)
+
+                on_release:
+                    app.root.current = "GroundCrewSimulation"
+                    root.manager.transition.direction = "left"
+
+            Button:
+                text: "Communications"
+                font_size: dp(35)
+
+                on_release:
+                    app.root.current = "Communications"
+                    root.manager.transition.direction = "left"
+
+            Button:
+                text: "Logout"
+                font_size: dp(35)
+
+                on_release:
+                    app.root.current = "loginScreen"
+                    root.manager.transition.direction = "right"

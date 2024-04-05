@@ -1,0 +1,459 @@
+Index: Screens.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#This code only have comments on the Login page as that is what I have wrote\r\n#Other comments about the code can be found on someone elses branch\r\n#When trying to login use \"Admin1\" for username and \"Test1234\" for the password\r\n#As of right now only 3 buttons work on the main menu Schedule, Plane Info, and Logout\r\n#again, other comment about how they work can be found on a different branch (check Noah's branch)\r\n\r\nfrom kivy.uix.screenmanager import ScreenManager, Screen\r\nfrom kivy.uix.boxlayout import BoxLayout\r\nfrom kivy.clock import Clock\r\nfrom kivy.app import App\r\nfrom kivy.lang import Builder\r\nfrom kivy.uix.recycleview.views import RecycleDataViewBehavior\r\nfrom kivy.uix.label import Label\r\nfrom kivy.properties import NumericProperty, ObjectProperty\r\nfrom kivy.properties import StringProperty\r\n\r\n#class to change between screens\r\nclass WindowManager(ScreenManager):\r\n    login = ObjectProperty(None)\r\n    mainMenu = ObjectProperty(None)\r\n\r\n#this hold the code for the login page\r\nclass LoginWindow(Screen):\r\n    #ObjectPropert retrieve the text input from the .kv file\r\n    userSubmit = ObjectProperty(None)\r\n    passwordSubmit = ObjectProperty(None)\r\n    #textSubmit is use to display successful login or a message saying wrong username and/or password\r\n    textSubmit = StringProperty(\"\")\r\n\r\n    # account is a list of tuple that has username as key and password as value\r\n    # Dillon have the list of valid user here\r\n    account = [(\"Admin1\", \"Test1234\"),\r\n               (\"Admin2\", \"Password\")]\r\n\r\n    #This function is called when the submit button is hit\r\n    def onSubmit(self):\r\n\r\n        valid = False\r\n\r\n        #this for loop checks if the username and password are in the account list\r\n        for i, tuple in enumerate(self.account):\r\n            if (tuple[0] == self.userSubmit.text and tuple[1] == self.passwordSubmit.text):\r\n                valid = True;\r\n\r\n        #if it is, set textSubmit to success and change to the main menu\r\n        if valid:\r\n            self.textSubmit = \"Success\"\r\n            self.manager.current = \"menuScreen\"\r\n        #else display incorrect username or password message\r\n        else:\r\n            self.textSubmit = \"Incorrect username or password.\"\r\n\r\n\r\nclass MainMenuWindow(Screen):\r\n    pass\r\n\r\n\r\n# Remove these two imports once PlaneInfoList.populate is implemented\r\nfrom random import sample, randint\r\nfrom string import ascii_lowercase\r\n\r\n\r\nclass PlaneInfoWindow(Screen):\r\n    pass\r\n\r\n\r\nclass PlaneInfoRow(RecycleDataViewBehavior, BoxLayout):\r\n    dataName = StringProperty()\r\n    dataValue = StringProperty()\r\n\r\n    def __init__(self, **kwargs):\r\n        super(PlaneInfoRow, self).__init__(**kwargs)\r\n\r\n\r\nclass PlaneInfoList(BoxLayout):\r\n    def __init__(self, **kwargs):\r\n        super(PlaneInfoList, self).__init__(**kwargs)\r\n        Clock.schedule_once(self.finish_init, 0)\r\n\r\n    def finish_init(self, dt):\r\n        self.populate()\r\n\r\n    # Dillon I need a query here for a plane's info!!!!---------------------------------------\r\n    def populate(self):\r\n        print(\"Populating\")\r\n        self.rv.data = [\r\n            {'dataName': ''.join(sample(ascii_lowercase, 6)),\r\n             'dataValue': str(randint(0, 2000))}\r\n            for x in range(50)]\r\n\r\n    def sort(self):\r\n        self.rv.data = sorted(self.rv.data, key=lambda x: x['name.text'])\r\n\r\n    def clear(self):\r\n        self.rv.data = []\r\n\r\n    def insert(self, value):\r\n        self.rv.data.insert(0, {\r\n            'name.text': value or 'default value', 'value': 'unknown'})\r\n\r\n    def update(self, value):\r\n        if self.rv.data:\r\n            self.rv.data[0]['name.text'] = value or 'default new value'\r\n            self.rv.refresh_from_data()\r\n\r\n    def remove(self):\r\n        if self.rv.data:\r\n            self.rv.data.pop(0)\r\n\r\n    # Populate the list at the start - not functioning\r\n\r\n\r\n#    def __post_init__(self, **kwargs):\r\n#        super().__init__(**kwargs)\r\n#        PlaneInfoList\r\n\r\nclass ScheduleWindow(Screen):\r\n    pass\r\n\r\n\r\n# https://github.com/kivy/kivy/issues/6582\r\nclass ArrivalList(BoxLayout):\r\n    # Dillon I need a query here for a plane's info!!!!---------------------------------------\r\n    def populate(self):\r\n        self.rv.data = [\r\n            {'name.text': ''.join(sample(ascii_lowercase, 6)),\r\n             'value': str(randint(0, 2000))}\r\n            for x in range(50)]\r\n\r\n\r\nclass DepartureList(BoxLayout):\r\n    # Dillon I need a query here for a plane's info!!!!---------------------------------------\r\n    def populate(self):\r\n        self.rv.data = [\r\n            {'name.text': ''.join(sample(ascii_lowercase, 6)),\r\n             'value': str(randint(0, 2000))}\r\n            for x in range(50)]\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Screens.py b/Screens.py
+--- a/Screens.py	(revision 11f21aaf6f3844d09d277453b3da6053f510c36b)
++++ b/Screens.py	(date 1637622753247)
+@@ -1,10 +1,11 @@
+ #This code only have comments on the Login page as that is what I have wrote
+ #Other comments about the code can be found on someone elses branch
+ #When trying to login use "Admin1" for username and "Test1234" for the password
+-#As of right now only 3 buttons work on the main menu Schedule, Plane Info, and Logout
++#My verson only 3 buttons work on the main menu Schedule, Plane Info, and Logout
+ #again, other comment about how they work can be found on a different branch (check Noah's branch)
+-
+-from kivy.uix.screenmanager import ScreenManager, Screen
++#he should also have implement more buttons
++from kivy.metrics import dp
++from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+ from kivy.uix.boxlayout import BoxLayout
+ from kivy.clock import Clock
+ from kivy.app import App
+@@ -13,11 +14,86 @@
+ from kivy.uix.label import Label
+ from kivy.properties import NumericProperty, ObjectProperty
+ from kivy.properties import StringProperty
++from kivy.animation import Animation
++
++from kivy.uix.widget import Widget
+ 
+-#class to change between screens
++#this variable is so that animation does not start until a certain sceen in on
++startMoving = False
++
++#this class is to change between screens
+ class WindowManager(ScreenManager):
+     login = ObjectProperty(None)
+     mainMenu = ObjectProperty(None)
++    radar = ObjectProperty(None)
++
++#this hos the code for the radar page
++class RadarWindow(Screen):
++
++    #these are the variable that corresponds with planes
++    global startMoving
++    plane1 = ObjectProperty(None)
++    plane2 = ObjectProperty(None)
++    plane3 = ObjectProperty(None)
++    plane4 = ObjectProperty(None)
++    label1 = ObjectProperty(None)
++    label2 = ObjectProperty(None)
++    label3 = ObjectProperty(None)
++    label4 = ObjectProperty(None)
++    planeInfo = ObjectProperty(None)
++
++    def __init__(self, **kwargs):
++        super().__init__(**kwargs)
++
++        #update screen every .1 seconds
++        Clock.schedule_interval(self.update, 0.1)
++        
++    #the method for the animation
++    def update(self, dt):
++        #get current plan posistion
++        x1, y1 = self.plane1.pos
++        x2, y2 = self.plane2.pos
++        x3, y3 = self.plane3.pos
++        x4, y4 = self.plane4.pos
++        
++        #displaying plane infor
++        self.label1.text = "ID      : 000001\nPosition: " + str(int(x1)) + ", " + str(int(y1)) + " \nAirline : American Airlines" 
++        self.label2.text = "ID      : 000002\nPosition: " + str(int(x2)) + ", " + str(int(y2)) + " \nAirline : Delta" 
++        self.label3.text = "ID      : 000003\nPosition: " + str(int(x3)) + ", " + str(int(y3)) + " \nAirline : United" 
++        self.label4.text = "ID      : 000004\nPosition: " + str(int(x4)) + ", " + str(int(y4)) + " \nAirline : American Airlines" 
++
++        #pause movement until the radar screen is shown
++        if(startMoving):
++            #updating plan position
++            #this is for demonstation purposes
++            #if we had access to actual plane movement this is where it will go
++            self.plane1.pos = (x1 + 5, y1 + 5)
++            self.plane2.pos = (x2 - 5, y2 + 2)
++            self.plane3.pos = (x3, y3 + 5)
++            self.plane4.pos = (x4 + 5, y4)
++
++            #removing plane if it is out of bound of  radar
++            if(x1 > (self.width * 2/3) - dp(20) or x1 < 0 or y1 > self.height or y1 < 0):
++                self.planeInfo.remove_widget(self.label1)
++                self.remove_widget(self.plane1)
++                
++
++            if(x2 > (self.width * 2/3) - dp(20) or x2 < 0 or y2 > self.height or y2 < 0):
++                self.planeInfo.remove_widget(self.label2)
++                self.remove_widget(self.plane2)
++
++            if(x3 > (self.width * 2/3) - dp(20) or x3 < 0 or y1 > self.height or y3 < 0):
++                self.planeInfo.remove_widget(self.label3)
++                self.remove_widget(self.plane3)
++
++            if(x4 > (self.width * 2/3) - dp(10) or x4 < 0 or y4 > self.height or y4 < 0):
++                self.planeInfo.remove_widget(self.label4)
++                self.remove_widget(self.plane4)
++
++
++#class for plane
++class Plane(Widget):
++    pass
+ 
+ #this hold the code for the login page
+ class LoginWindow(Screen):
+@@ -40,7 +116,7 @@
+         #this for loop checks if the username and password are in the account list
+         for i, tuple in enumerate(self.account):
+             if (tuple[0] == self.userSubmit.text and tuple[1] == self.passwordSubmit.text):
+-                valid = True;
++                valid = True
+ 
+         #if it is, set textSubmit to success and change to the main menu
+         if valid:
+@@ -52,7 +128,11 @@
+ 
+ 
+ class MainMenuWindow(Screen):
+-    pass
++    def changeToRadar(self):
++        global startMoving
++        startMoving = True
++        self.manager.current = "radarScreen"
++        self.manager.transition = SlideTransition(direction='right', duration=.25)
+ 
+ 
+ # Remove these two imports once PlaneInfoList.populate is implemented
+Index: Screens/Login.kv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#:kivy 2.0.0\r\n\r\n#simple mockup login page\r\n<LoginWindow>:\r\n    userSubmit: User\r\n    passwordSubmit: Password\r\n\r\n    GridLayout:\r\n        cols:1\r\n\r\n        GridLayout:\r\n            cols: 2\r\n\r\n            Label:\r\n                text: \"Username: \"\r\n\r\n            TextInput:\r\n                id: User\r\n                multiline: False\r\n\r\n            Label:\r\n                text: \"Password: \"\r\n\r\n            TextInput:\r\n                id:Password\r\n                multiline: False\r\n\r\n        Label:\r\n            text: root.textSubmit\r\n\r\n        #pressing the button will call a function in the Screens.py file called onSubmit\r\n        Button:\r\n            text: \"Submit\"\r\n            on_release: root.onSubmit()\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Screens/Login.kv b/Screens/Login.kv
+--- a/Screens/Login.kv	(revision 11f21aaf6f3844d09d277453b3da6053f510c36b)
++++ b/Screens/Login.kv	(date 1636751937936)
+@@ -33,3 +33,4 @@
+             text: "Submit"
+             on_release: root.onSubmit()
+ 
++
+Index: main.kv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#:kivy 2.0.0\r\n\r\n#:include ./Screens/Login.kv\r\n#:include ./Screens/MainMenu.kv\r\n#:include ./Screens/PlaneInfo.kv\r\n#:include ./Screens/Schedule.kv\r\n#:include ./Screens/Manager.kv\r\n\r\nWindowManager:\r\n    LoginWindow:\r\n    MainMenuWindow:\r\n    PlaneInfoWindow:\r\n    ScheduleWindow:\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.kv b/main.kv
+--- a/main.kv	(revision 11f21aaf6f3844d09d277453b3da6053f510c36b)
++++ b/main.kv	(date 1636752635985)
+@@ -5,9 +5,11 @@
+ #:include ./Screens/PlaneInfo.kv
+ #:include ./Screens/Schedule.kv
+ #:include ./Screens/Manager.kv
++#:include ./Screens/Radar.kv
+ 
+ WindowManager:
+     LoginWindow:
+     MainMenuWindow:
+     PlaneInfoWindow:
+     ScheduleWindow:
++    RadarWindow:
+Index: Screens/Radar.kv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Screens/Radar.kv b/Screens/Radar.kv
+new file mode 100644
+--- /dev/null	(date 1637622647732)
++++ b/Screens/Radar.kv	(date 1637622647732)
+@@ -0,0 +1,207 @@
++#:kivy 2.0.0
++#:import Factory kivy.factory.Factory
++
++#this is for demonstration only
++#this will be use to act out bad weather
++#a warning will show if there is bad weather
++<MyPopup@Popup>:
++
++    auto_dismiss: False
++    size_hint: None, None,
++    size: 300, 200
++    pos: root.center_x - 150, root.center_y - 100
++
++    title: "Warning"
++
++    BoxLayout:
++
++        orientation: "vertical"
++        Label:
++            text: "Bad Weather Warning"
++            color: 1, 0, 0, 1
++        Label:
++        Button:
++
++            text: "Ok"
++            on_release: root.dismiss()
++
++#simple radar mock up
++<RadarWindow>:
++    name: "radarScreen"
++    plane1: planeA
++    plane2: planeB
++    plane3: planeC
++    plane4: planeD
++    label1: labelA
++    label2: labelB
++    label3: labelC
++    label4: labelD
++
++    planeInfo: PlaneInfo
++
++    #show radar
++    canvas.before:
++        Rectangle:
++            pos: 0,0
++            size: root.width * 2 / 3, self.height
++            source: "radarPic.png"
++
++    #create lines for visual purposes
++    canvas:
++        Color:
++            rgb: 244/255, 243/255, 238/255, 1
++        Rectangle:
++            pos: root.width * 2 / 3 - 5, 0
++            size: 5, self.height
++
++        Rectangle:
++            pos: root.width * 2 / 3, (root.height) * 7.3 / 40
++            size: root.width / 3, 5
++
++        Rectangle:
++            pos: root.width * 2 /3, root.height - 50
++            size: root.width / 3, 5
++
++    #initialize the planes on the radar
++    Plane:
++        id: planeA
++        pos: root.width * 2 /5, root.height * 0.60
++
++    Plane:
++        id: planeB
++        pos: root.width * 2/7, root.height * 0.4
++
++    Plane:
++        id: planeC
++        pos: root.width * .2, root.height * 0.8
++
++    Plane:
++        id: planeD
++        pos: root.width * .5, root.height * 0.45
++    
++
++
++    BoxLayout:
++        Widget:
++            size_hint_x: None
++            width: root.width * 2 / 3
++
++        #this will hold the plane info
++        BoxLayout:
++            orientation: "vertical"
++
++            Label
++                text: "Plane Info"
++                font_size: sp(30)
++                size_hint_y: None
++                height: 50
++            BoxLayout:
++                id: PlaneInfo
++                size_hint_y: None
++                height: root.height * 29 / 40
++                orientation: "vertical"
++                Label:
++                    id: labelA
++                    size_hint: None, None
++                    size: root.width * 1/3, root.height * .15
++                    canvas.before:
++                        Color:
++                            rgba: 0, 0, 0, 1
++                        Rectangle:
++                            pos: self.pos
++                            size: self.size
++                Label:
++                    size_hint_y: None
++                    height: 1
++                    canvas:
++                        Rectangle:
++                            pos:self.pos
++                            size: self.size
++
++                Label:
++                    id: labelB
++                    size_hint: None, None
++                    size: root.width * 1/3, root.height * .15
++                    canvas.before:
++                        Color:
++                            rgba: 0, 0, 0, 1
++                        Rectangle:
++                            pos: self.pos
++                            size: self.size
++                Label:
++                    size_hint_y: None
++                    height: 1
++                    canvas:
++                        Rectangle:
++                            pos:self.pos
++                            size: self.size
++
++                Label:
++                    id: labelC
++                    size_hint: None, None
++                    size: root.width * 1/3, root.height * .15
++                    canvas.before:
++                        Color:
++                            rgba: 0, 0, 0, 1
++                        Rectangle:
++                            pos: self.pos
++                            size: self.size
++                Label:
++                    size_hint_y: None
++                    height: 1
++                    canvas:
++                        Rectangle:
++                            pos:self.pos
++                            size: self.size
++
++                Label:
++                    id: labelD
++                    size_hint: None, None
++                    size: root.width * 1/3, root.height * .15
++                    canvas.before:
++                        Color:
++                            rgba: 0, 0, 0, 1
++                        Rectangle:
++                            pos: self.pos
++                            size: self.size
++                Label:
++                    size_hint_y: None
++                    height: 1
++                    canvas:
++                        Rectangle:
++                            pos:self.pos
++                            size: self.size
++                        
++                Widget:
++                    canvas:
++                        Color:
++                            rgba: 0, 0, 0, 1
++                        Rectangle:
++                            pos:self.pos
++                            size: self.size
++                
++
++            #this is for bad weather demostration and to go back to main menu
++            BoxLayout:
++                spacing: 30
++                padding: 20, 20, 20, 20
++                Button:
++                    text: "Bad Weather"
++                    on_release: Factory.MyPopup().open()
++                Button:
++                    text: "Main Menu"
++                    on_release:
++                        app.root.current = "menuScreen"
++                        root.manager.transition.direction = "right"
++
++#this is the illustration of the planes
++<Plane@Widget>:
++
++    canvas:
++        Color:
++            rgb: 1, 0 ,0, 1
++
++        Ellipse:
++            size: dp(20), dp(20)
++            pos: self.pos
++
+Index: Screens/Manager.kv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#:kivy 2.0.0\r\n\r\n#is use to change between window\r\n<WindowManager>:\r\n    id: screen_manager\r\n\r\n    login: login\r\n    mainMenu: menu\r\n\r\n    LoginWindow:\r\n        id: login\r\n        name: \"loginScreen\"\r\n        manager: screen_manager\r\n\r\n    MainMenuWindow:\r\n        id: menu\r\n        name: \"menuScreen\"\r\n        manager: screen_manager
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Screens/Manager.kv b/Screens/Manager.kv
+--- a/Screens/Manager.kv	(revision 11f21aaf6f3844d09d277453b3da6053f510c36b)
++++ b/Screens/Manager.kv	(date 1637622661580)
+@@ -1,12 +1,20 @@
+ #:kivy 2.0.0
+ 
+-#is use to change between window
++#:include ./Screens/Login.kv
++#:include ./Screens/MainMenu.kv
++#:include ./Screens/PlaneInfo.kv
++#:include ./Screens/Schedule.kv
++#:include ./Screens/Manager.kv
++#:include ./Screens/Radar.kv
++
+ <WindowManager>:
+     id: screen_manager
+ 
+     login: login
+     mainMenu: menu
+-
++    radar: radar
++    
++    
+     LoginWindow:
+         id: login
+         name: "loginScreen"
+@@ -15,4 +23,13 @@
+     MainMenuWindow:
+         id: menu
+         name: "menuScreen"
+-        manager: screen_manager
+\ No newline at end of file
++        manager: screen_manager
++
++    RadarWindow:
++        id: radar
++        name: "radarScreen"
++        manager: screen_manager
++    
++    
++    PlaneInfoWindow:
++    ScheduleWindow:
+\ No newline at end of file
+Index: Screens/MainMenu.kv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Only button that works at the moment includes: Schedule, Plane Info, and Logout\r\n#:kivy 2.0.0\r\n\r\n<MainMenuWindow>:\r\n    GridLayout:\r\n        padding: 20, 20, 20, 20\r\n        spacing: 10\r\n        cols: 3\r\n        rows: 3\r\n\r\n        Button:\r\n            text: \"Schedule\"\r\n\r\n            on_release:\r\n                app.root.current = \"Schedule\"\r\n                root.manager.transition.direction = \"left\"\r\n\r\n        Button:\r\n            text: \"Plane Info\"\r\n\r\n            on_release:\r\n                app.root.current = \"PlaneInfo\"\r\n                root.manager.transition.direction = \"left\"\r\n\r\n        Button:\r\n            text: \"Radar\"\r\n\r\n        Button:\r\n            text: \"Ground Crew\"\r\n\r\n        Button:\r\n            text: \"Terminal Simulation\"\r\n\r\n        Button:\r\n            text: \"Master Log\"\r\n\r\n        Button:\r\n            text: \"Incident Log\"\r\n\r\n        Button:\r\n            text: \"Logout\"\r\n\r\n            on_release:\r\n                app.root.current = \"loginScreen\"\r\n                root.manager.transition.direction = \"right\"
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Screens/MainMenu.kv b/Screens/MainMenu.kv
+--- a/Screens/MainMenu.kv	(revision 11f21aaf6f3844d09d277453b3da6053f510c36b)
++++ b/Screens/MainMenu.kv	(date 1637613767865)
+@@ -24,6 +24,9 @@
+ 
+         Button:
+             text: "Radar"
++            on_release: root.changeToRadar()
++                #app.root.current = "RadarScreen"
++                #root.manager.transition.direction = "left"
+ 
+         Button:
+             text: "Ground Crew"

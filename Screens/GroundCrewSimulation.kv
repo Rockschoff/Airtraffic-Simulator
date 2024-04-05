@@ -1,0 +1,161 @@
+#:kivy 2.0.0
+
+# GroundCrewSimulation.kv
+#   Definition of the GUI for simulation of the ground crew
+
+<GroundCrewWorker@Image>
+    source: "./resources/images/GoogleWorker.png"
+    size_hint_x: .015
+    size_hint_y: None
+    height: root.width
+    allow_stretch: True
+    keep_ratio: "True"
+
+<EngineeringCheckPopup@Popup>:
+
+    auto_dismiss: False
+    size_hint: None, None
+    size: 300, 200
+
+    title: "Engineering Check Completed"
+
+    BoxLayout:
+
+        orientation: "vertical"
+        Label:
+            text: "Engineering check completed\nPilots notified"
+            color: 1, 1, 1, 1
+        Label:
+        Button:
+            text: "Ok"
+            on_release: root.dismiss()
+
+<ExtendGatePopup@Popup>:
+
+    auto_dismiss: False
+    size_hint: None, None
+    size: 300, 200
+
+    title: "Gate Extended"
+
+    BoxLayout:
+
+        orientation: "vertical"
+        Label:
+            text: "Gate successfully extended"
+            color: 1, 1, 1, 1
+        Label:
+        Button:
+            text: "Ok"
+            on_release: root.dismiss()
+
+<GroundCrewSimulationWindow>:
+    name: "GroundCrewSimulation"
+    canvas.before:
+        Color:
+            rgba: 0.3922, 0.4314, 0.4078, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        rows: 3
+
+        TopBarLayout:
+            title_text: "Ground Crew Simulation"
+
+        GridLayout: 
+            canvas:
+                Color:
+                    rgba: 0.11372549, 0.11372549, 0.11372549, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            size_hint: 1, .07
+            cols: 6
+            spacing: dp(10)
+
+            padding: dp(4)
+
+            Button:
+                text: "Engineering checks"
+                on_release: root.engineeringCheck()
+            
+            Button:
+                text: "Extend Gate"
+                on_release: root.extendGate()
+
+        FloatLayout:
+            canvas: 
+                Color:
+                    rgba: 0.474509804, 0.454901961, 0.439215686, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            id: GroundCrewSimFloatLayout
+
+            # Plane
+            Image: 
+                canvas.before: 
+                    PushMatrix
+                    Color:
+                        rgba: 0, 0, 1, 0 
+                    Rotate:
+                        angle: 225
+                        origin: self.center
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                canvas.after:
+                    PopMatrix
+                source: "./resources/images/EnlargedGoogleAirplane.png"
+                x: GroundCrewSimFloatLayout.width * 0.3
+                y: GroundCrewSimFloatLayout.height * 0.2
+                size_hint: .7, .7
+                allow_stretch: True
+                keep_ratio: "True"
+
+            # Gate
+            Label:
+                id: gate
+                canvas:
+                    Color:
+                        rgba: .3, .29, .31, 1 
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                x: GroundCrewSimFloatLayout.width * 0.7
+                y: 0 # GroundCrewSimFloatLayout.height * 0.5
+                size_hint: .03, .10
+
+            # Worker 1
+            GroundCrewWorker:
+                id: worker1
+                x: GroundCrewSimFloatLayout.width * 0.7
+                y: GroundCrewSimFloatLayout.height * 0.7
+
+            # Worker 2
+            GroundCrewWorker:
+                id: worker2
+                x: GroundCrewSimFloatLayout.width * 0.3
+                y: GroundCrewSimFloatLayout.height * 0.3
+
+            # Worker 3
+            GroundCrewWorker:
+                id: worker3
+                x: GroundCrewSimFloatLayout.width * 0.5
+                y: GroundCrewSimFloatLayout.height * 0.7
+
+            # Worker 4
+            GroundCrewWorker:
+                id: worker4
+                x: GroundCrewSimFloatLayout.width * 0.4
+                y: GroundCrewSimFloatLayout.height * 0.5
+
+            # Worker 5
+            GroundCrewWorker:
+                id: worker5
+                x: GroundCrewSimFloatLayout.width * 0.8
+                y: GroundCrewSimFloatLayout.height * 0.1

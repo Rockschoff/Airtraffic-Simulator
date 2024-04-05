@@ -1,0 +1,51 @@
+#:kivy 2.0.0
+
+<TopBarLayout>:
+    canvas:
+        Color:
+            rgba: 0.4, 0.4, 0.4, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    size_hint: 1, .08
+    cols: 2
+    padding: dp(8)
+
+    title_text: ""
+
+    # Title
+    AnchorLayout:
+        size_hint: .5, 1
+        anchor_x: 'left'
+        anchor_y: 'center'
+
+        Label:
+            text: ""
+            color: 0, 0, 0, 1
+            bold: True
+            font_size: dp(35)
+            max_lines: 1
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+            size_hint: 1, 1
+            anchor_x: 'left'
+            text: root.title_text
+
+    # X button
+    AnchorLayout:
+        id: TopbarLayoutXButtonHalf
+        size_hint: .5, 1
+        anchor_x: 'right'
+
+        Button:
+            size_hint_x: None
+            size_hint_y: None
+            width: TopbarLayoutXButtonHalf.height
+            height: TopbarLayoutXButtonHalf.height 
+
+            text: "X"
+            font_size: dp(20)
+
+            on_release: app.root.current = "MainMenu"

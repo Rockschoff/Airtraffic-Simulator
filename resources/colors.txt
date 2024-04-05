@@ -1,0 +1,26 @@
+This file is for storing color values in rbga format where each value is out of 1
+This is for reference - a theme will be implemented at a later date
+
+Nickel (Gray)
+0.392156862745, 0.43137254902, 0.407843137255, 1
+
+Space Cadet (Blue-Purple)
+0.0901960784314, 0.0941176470588, 0.23137254902, 1
+
+New York Pink
+0.807843137255, 0.474509803922, 0.419607843137, 1
+
+Blue Green
+.023529412, .31765, .26275,1
+
+Shiny Shamrock
+.38431, .65882, .48627, 1
+
+Baby Blue Eyes
+.64706, .84706, 1, 1
+
+Orange Yellow
+.96078, .733333, 0, 1
+
+Alabaster (off-white)
+.95686, .95294, .93333, 1

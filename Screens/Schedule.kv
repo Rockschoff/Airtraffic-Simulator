@@ -1,0 +1,120 @@
+#:kivy 2.0.0
+
+# Schedule.kv
+# Description:
+#   Definition of the GUI for the view of the schedule.
+#   It contains the list of arrivals and departures
+
+<ArrivalRow>:
+    canvas.before:
+        Color:
+            rgba: 0.0901960784314, 0.0941176470588, 0.23137254902, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    planeName: ''
+    planeArrivalTime: ''
+    Label:
+        text: root.planeName
+    Label:
+        text: root.planeArrivalTime
+
+<DepartureRow>:
+    canvas.before:
+        Color:
+            rgba: 0.0901960784314, 0.0941176470588, 0.23137254902, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    planeName: ''
+    planeDepartureTime: ''
+    Label:
+        text: root.planeName
+    Label:
+        text: root.planeDepartureTime
+
+
+<ScheduleWindow>:
+    name: "Schedule"
+    canvas.before:
+        Color:
+            rgba: .95686, .95294, .93333, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+    GridLayout:
+        rows: 2
+
+        TopBarLayout:  
+            title_text: "Schedule"
+            
+        GridLayout:
+            cols: 2
+
+            ArrivalList: 
+            DepartureList:
+
+<ArrivalList>:
+    canvas:
+        Color:
+            rgba: 0.392156862745, 0.43137254902, 0.407843137255, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    rv: Arrivals
+    GridLayout:
+        rows: 2
+        padding: dp(8)
+
+        Label:
+            text: 'Arrivals'
+            font_size: sp(20)
+            size_hint: 1, .1
+
+        RecycleView:
+            id: Arrivals
+            scroll_type: ['bars', 'content']
+            scroll_wheel_distance: dp(118)
+            bar_width: dp(14)
+            viewclass: 'ArrivalRow'
+            RecycleBoxLayout:
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+                spacing: dp(2)
+                
+
+<DepartureList>:
+    canvas:
+        Color:
+            rgba: 0.3922, 0.4314, 0.4078, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    rv: Departures
+    GridLayout:
+        rows: 2
+        padding: dp(8)
+
+        Label:
+            text: 'Departures'
+            font_size: sp(20)
+            size_hint: 1, .1
+
+        RecycleView:
+            id: Departures
+            scroll_type: ['bars', 'content']
+            scroll_wheel_distance: dp(118)
+            bar_width: dp(10)
+            viewclass: 'DepartureRow'
+            RecycleBoxLayout:
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+                spacing: dp(2)
+                

@@ -1,0 +1,56 @@
+#:kivy 2.0.0
+
+# Login.kv
+# Description:
+#   Definition of the GUI of the login screen 
+
+<LoginWindow>:
+    canvas.before:
+        Color:
+            rgba: 0.3922, 0.4314, 0.4078, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    userSubmit: User
+    passwordSubmit: Password
+    
+
+    GridLayout:
+        cols:1
+        padding: [70, 50, 70, 50]
+        
+        Label:
+            text: "Login"
+            font_size: '50sp'
+        GridLayout:
+            cols: 2
+            spacing: '10dp'
+           
+            Label:
+                text: "Username: "
+                font_size: dp(30)
+
+            TextInput:
+                id: User
+                multiline: False
+                font_size: dp(20)
+
+            Label:
+                text: "Password: "
+                font_size: dp(30)
+
+            TextInput:
+                id:Password
+                multiline: False
+                password: True
+                font_size: dp(20)
+
+        Label:
+            text: root.textSubmit
+            color: 1, 0, 0, 1
+
+        #pressing the button will call a function in the Screens.py file called onSubmit
+        Button:
+            text: "Submit"
+            on_release: root.onSubmit()
+            font_size: 40

@@ -1,0 +1,35 @@
+#:kivy 2.0.0
+
+#:include ./Screens/Login.kv
+#:include ./Screens/MainMenu.kv
+#:include ./Screens/PlaneInfo.kv
+#:include ./Screens/Schedule.kv
+#:include ./Screens/Manager.kv
+#:include ./Screens/Radar.kv
+
+<WindowManager>:
+    id: screen_manager
+
+    login: login
+    mainMenu: menu
+    radar: radar
+        
+    LoginWindow:
+        id: login
+        name: "loginScreen"
+        manager: screen_manager
+
+    MainMenuWindow:
+        id: menu
+        name: "menuScreen"
+        manager: screen_manager
+
+    RadarWindow:
+        id: radar
+        name: "radarScreen"
+        manager: screen_manager
+    
+    
+    
+    PlaneInfoWindow:
+    ScheduleWindow:

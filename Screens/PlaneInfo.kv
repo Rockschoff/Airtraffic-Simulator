@@ -1,0 +1,166 @@
+#:kivy 2.0.0
+
+# PlaneInfo.kv
+# Description:
+#   Definition of the GUI for display of the info for a selected plane
+
+#:import Factory kivy.factory.Factory
+
+#this is for demonstration only
+# This will 
+<OverweightPopup@Popup>:
+
+    auto_dismiss: False
+    size_hint: None, None,
+    size: 300, 200
+    pos: root.center_x - 150, root.center_y - 100
+
+    title: "Warning"
+
+    BoxLayout:
+
+        orientation: "vertical"
+        Label:
+            text: "OVERWEIGHT"
+            color: 1, 0, 0, 1
+        Label:
+        Button:
+            text: "Ok"
+            on_release: root.dismiss()
+
+<PlaneInfoWindow>:
+    name: "PlaneInfo"
+    canvas.before:
+        Color:
+            rgba: 0.3922, 0.4314, 0.4078, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        rows: 3
+
+        # Title
+        TopBarLayout:
+            title_text: "Plane Info"
+
+        # Input bar
+        GridLayout:
+            rows: 2
+            size_hint: 1, .14
+
+            # Input
+            GridLayout: 
+                canvas:
+                    Color:
+                        rgba: 0.392156862745, 0.43137254902, 0.407843137255, 1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+                size_hint: 1, .07
+                cols: 3
+                spacing: dp(10)
+                padding: dp(4)
+
+                Label: 
+                    text: "Plane ID: "
+                    font_size: dp(25)
+                    size: self.texture_size
+                    size_hint: .2, 1
+
+                TextInput:
+                    id: PlaneInfoPlaneID
+                    multiline: False
+                    font_size: dp(25)
+                    on_text_validate: root.getInfo()
+                
+                # Plane ID search result
+                Label: 
+                    id: PlaneInfoPlaneIDGetInfoResult
+                    text: ''
+                    font_size: dp(25)
+                    color: 1, 0, 0, 1
+
+
+            # Search bar
+            GridLayout: 
+                canvas:
+                    Color:
+                        rgba: 0.392156862745, 0.43137254902, 0.407843137255, 1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+                size_hint: 1, .07
+                cols: 3
+                spacing: dp(10)
+
+                padding: dp(4)
+
+                Button:
+                    text: "Refresh"
+                    on_release: PlaneInfoList.refresh()
+                
+                Button:
+                    text: "Make overweight"
+                    on_release: 
+                        PlaneInfoList.makeOverweight()
+                        on_release: Factory.OverweightPopup().open()
+
+                AnchorLayout:
+                    anchor_x: 'right'
+
+                    TextInput:
+                        id: PlaneInfoTextInput
+                        size_hint: 1, .8
+                        hint_text: "Search"
+                        multiline: False
+                        halign: 'center'
+                        on_text_validate: root.search()
+
+        # Info list
+        PlaneInfoList: 
+            id: PlaneInfoList
+
+    
+<PlaneInfoRow>:
+    canvas.before:
+        Color:
+            rgba: 0.0901960784314, 0.0941176470588, 0.23137254902, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    dataName: ''
+    dataValue: ''
+    
+    Label:
+        text: root.dataName
+    Label:
+        text: root.dataValue
+
+<PlaneInfoList>:
+    canvas:
+        Color:
+            rgba: 0.392156862745, 0.43137254902, 0.407843137255, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    rv: InfoList
+    GridLayout:
+        rows: 1
+        padding: dp(8)
+
+        RecycleView:
+            id: InfoList
+            scroll_type: ['bars', 'content']
+            scroll_wheel_distance: dp(118)
+#           bar_width: dp(20)
+            viewclass: 'PlaneInfoRow'
+            RecycleBoxLayout:
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+                spacing: dp(2)
